@@ -1,8 +1,8 @@
 package models
 
 import (
-	"boilerplate/services"
 	"fmt"
+	"go-plate/services"
 	"reflect"
 	"time"
 

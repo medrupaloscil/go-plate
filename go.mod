@@ -1,4 +1,4 @@
-module boilerplate
+module go-plate
 
 go 1.20
 

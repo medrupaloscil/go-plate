@@ -1,10 +1,10 @@
 package main
 
 import (
-	"boilerplate/models"
-	"boilerplate/routing"
-	"boilerplate/services"
 	"fmt"
+	"go-plate/models"
+	"go-plate/routing"
+	"go-plate/services"
 	"log"
 	"net/http"
 	"os"

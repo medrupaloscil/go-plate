@@ -1,10 +1,10 @@
 package controllers
 
 import (
-	"boilerplate/models"
-	"boilerplate/services"
 	"encoding/json"
 	"fmt"
+	"go-plate/models"
+	"go-plate/services"
 	"io"
 	"net/http"
 	"os"

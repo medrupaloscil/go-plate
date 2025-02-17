@@ -1,9 +1,9 @@
 package routing
 
 import (
-	"boilerplate/services"
 	"context"
 	"fmt"
+	"go-plate/services"
 	"net/http"
 	"time"
 

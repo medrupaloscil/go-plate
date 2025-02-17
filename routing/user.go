@@ -1,7 +1,7 @@
 package routing
 
 import (
-	"boilerplate/controllers"
+	"go-plate/controllers"
 
 	"github.com/gorilla/mux"
 )

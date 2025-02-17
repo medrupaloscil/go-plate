@@ -1,7 +1,7 @@
 package models
 
 import (
-	"boilerplate/services"
+	"go-plate/services"
 	"time"
 
 	"golang.org/x/crypto/bcrypt"
