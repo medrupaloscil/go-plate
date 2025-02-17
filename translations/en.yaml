@@ -1,0 +1,7 @@
+failed_to_read_body: "Failed to read request body"
+fail_to_parse_body: "Failed to parse request body"
+fail_to_retrieve_password: "Failed to retrieve password from body"
+welcome: "Welcome to Go-Plate"
+welcome_message: "Welcome to Go-Plate, we are happy to have you on board!"
+fail_to_retrieve_users: "Failed to retrieve users"
+invalid_id_format: "Invalid ID format"

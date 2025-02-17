@@ -5,6 +5,7 @@ import (
 	"go-plate/models"
 	"go-plate/routing"
 	"go-plate/services"
+	"go-plate/translations"
 	"log"
 	"net/http"
 	"os"
@@ -38,6 +39,10 @@ func main() {
 				panic("Models migration failed")
 			}
 		}
+	}
+
+	if err := translations.LoadTranslations(); err != nil {
+		log.Fatal("Failed to load translations:", err)
 	}
 
 	router := mux.NewRouter()

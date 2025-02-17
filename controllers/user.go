@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"go-plate/models"
 	"go-plate/services"
+	"go-plate/translations"
 	"io"
 	"net/http"
 	"os"
@@ -17,7 +18,7 @@ import (
 func Register(w http.ResponseWriter, r *http.Request) {
 	body, err := io.ReadAll(r.Body)
 	if err != nil {
-		SendError(400, "Failed to read request body", w)
+		SendError(400, translations.T(r.Context().Value("Lang").(string), "failed_to_read_body"), w)
 		return
 	}
 	
@@ -25,14 +26,14 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	user.LastOnline = time.Now()
 
 	if err := json.Unmarshal(body, &user); err != nil {
-		SendError(422, "fail_to_parse_body", w)
+		SendError(422, translations.T(r.Context().Value("Lang").(string), "fail_to_parse_body"), w)
 		return
 	}
 
 	password := new(models.Password)
 	if err := json.Unmarshal(body, &password); err != nil {
 		fmt.Println(err)
-		SendError(422, "Failed to retrieve password from body", w)
+		SendError(422, translations.T(r.Context().Value("Lang").(string), "fail_to_retrieve_password"), w)
 		return
 	}
 
@@ -42,26 +43,28 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	services.SendEmail(user.Email, translations.T(r.Context().Value("Lang").(string), "welcome"), translations.T(r.Context().Value("Lang").(string), "welcome_message"))
+
 	SendResponse(user, w)
 }
 
 func Login(w http.ResponseWriter, r *http.Request) {
 	body, err := io.ReadAll(r.Body)
 	if err != nil {
-		SendError(400, "Failed to read request body", w)
+		SendError(400, translations.T(r.Context().Value("Lang").(string), "failed_to_read_body"), w)
 		return
 	}
 	
 	user := new(models.User)
 	if err := json.Unmarshal(body, &user); err != nil {
-		SendError(422, "fail_to_parse_body", w)
+		SendError(422, translations.T(r.Context().Value("Lang").(string), "fail_to_parse_body"), w)
 		return
 	}
 
 	password := new(models.Password)
 	if err := json.Unmarshal(body, &password); err != nil {
 		fmt.Println(err)
-		SendError(422, "Failed to retrieve password from body", w)
+		SendError(422, translations.T(r.Context().Value("Lang").(string), "fail_to_retrieve_password"), w)
 		return
 	}
 
@@ -93,7 +96,7 @@ func GetUsers(w http.ResponseWriter, r *http.Request) {
 
 	users, err := models.GetAllUser(int(page), int(itemsPerPage))
 	if err != nil {
-		SendError(400, "Failed to retrieve users", w)
+		SendError(400, translations.T(r.Context().Value("Lang").(string), "fail_to_retrieve_users"), w)
 		return
 	}
 
@@ -113,7 +116,7 @@ func GetUser(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id, err := strconv.ParseUint(vars["id"], 10, 32)
 	if err != nil {
-		http.Error(w, "Invalid id format", http.StatusBadRequest)
+		http.Error(w, translations.T(r.Context().Value("Lang").(string), "invalid_id_format"), http.StatusBadRequest)
 		return
 	}
 

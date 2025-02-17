@@ -9,7 +9,6 @@ func GetStructType(myvar interface{}) string {
 	return reflect.TypeOf(myvar).String()
 }
 
-// TODO: Potential weakness, to verify
 func RandStringBytes(n int, special bool) string {
 	letterBytes := "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
 	if special {
