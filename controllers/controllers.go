@@ -13,15 +13,18 @@ type ErrorResponse struct {
 func SendResponse(data any, w http.ResponseWriter) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(data)
+	if err := json.NewEncoder(w).Encode(data); err != nil {
+		SendError(500, err.Error(), w)
+	}
 }
 
 func SendError(code int, err string, w http.ResponseWriter) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(code)
-	json.NewEncoder(w).Encode(ErrorResponse{
+	if err := json.NewEncoder(w).Encode(ErrorResponse{
 		Success: false,
 		Error:   err,
-	})
-	return
+	}); err != nil {
+		print(err)
+	}
 }

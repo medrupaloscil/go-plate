@@ -11,10 +11,14 @@ import (
 	"os"
 
 	"github.com/gorilla/mux"
+	"github.com/joho/godotenv"
 )
 
 func main() {
 	services.InitLogger()
+	if err := godotenv.Load(); err != nil {
+		log.Fatal("Error loading .env file")
+	}
 
 	driver := os.Getenv("DB_DRIVER")
 	if driver == "" {

@@ -15,4 +15,5 @@ func User(router *mux.Router) {
 	authenticated.Use(AuthMiddleware)
 	authenticated.HandleFunc("/me", controllers.GetMe).Methods("GET")
 	authenticated.HandleFunc("/{id}", controllers.GetUser).Methods("GET")
+	authenticated.HandleFunc("/picture", controllers.UploadProfilePicture).Methods("POST")
 }

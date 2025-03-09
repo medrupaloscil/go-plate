@@ -35,7 +35,7 @@ func AuthMiddleware(next http.Handler) http.Handler {
 			return
 		}
 		
-		ctx := context.WithValue(r.Context(), "UserId", id)
+		ctx := context.WithValue(r.Context(), services.UserIDKey, id)
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})
 }
@@ -47,7 +47,7 @@ func LangMiddleWare(next http.Handler) http.Handler {
 			lang = "en"
 		}
 
-		ctx := context.WithValue(r.Context(), "Lang", lang)
+		ctx := context.WithValue(r.Context(), services.LangKey, lang)
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})
 }

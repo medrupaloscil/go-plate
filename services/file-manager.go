@@ -1,6 +1,7 @@
 package services
 
 import (
+	"fmt"
 	"image"
 	"math"
 	"mime/multipart"
@@ -72,21 +73,15 @@ func PutFile(file *multipart.FileHeader, mediaType string, userId uint) (string,
 	return fileName, nil
 }
 
-func PutImage(file *multipart.FileHeader, mediaType string, userId uint) (string, error, float32) {
-	extension := filepath.Ext(file.Filename)
+func PutImage(file *multipart.File, ext string, mediaType string, userId uint) (string, error, float32) {
 	now := time.Now()
-	fileName := mediaType + "/" + strconv.Itoa(int(now.UnixNano())) + strconv.Itoa(int(userId)) + "-" + RandStringBytes(20, false) + extension
+	fileName := mediaType + "/" + strconv.Itoa(int(now.UnixNano())) + strconv.Itoa(int(userId)) + "-" + RandStringBytes(20, false) + ext
 	svc := GetClient()
 	var size float32
 	size = 1.0
 
-	fileContent, err := file.Open()
-	if err != nil {
-		return "", err, size
-	}
-	defer fileContent.Close()
-
-	img, _, err := image.DecodeConfig(fileContent)
+	img, _, err := image.DecodeConfig(*file)
+	fmt.Println(file)
 
 	if err != nil {
 		size = float32(img.Width) / float32(img.Height)
@@ -98,7 +93,7 @@ func PutImage(file *multipart.FileHeader, mediaType string, userId uint) (string
 	params := &s3.PutObjectInput{
 		Bucket: aws.String(bucketName),
 		Key:    aws.String(fileName),
-		Body:   fileContent,
+		Body:   *file,
 	}
 
 	_, err = svc.PutObject(params)
@@ -106,5 +101,6 @@ func PutImage(file *multipart.FileHeader, mediaType string, userId uint) (string
 		return "", err, size
 	}
 
+	fmt.Println("5")
 	return fileName, nil, size
 }

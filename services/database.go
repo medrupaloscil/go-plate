@@ -35,14 +35,11 @@ func NewDB(config *DatabaseConfig) (*gorm.DB, error) {
 		dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&collation=utf8mb4_general_ci&parseTime=True&loc=UTC",
 			config.Username, config.Password, config.Host, config.Port, config.Database)
 			DB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
-		break
 	case "postgresql", "postgres":
 		dsn := fmt.Sprintf("user=%s password=%s dbname=%s host=%s port=%s TimeZone=UTC", config.Username, config.Password, config.Database, config.Host, config.Port)
 		DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
-		break
 	case "sqlite":
 		DB, err = gorm.Open(sqlite.Open(os.Getenv("DB_DATABASE")+".db"), &gorm.Config{})
-		break
 	}
 
 	return DB, err

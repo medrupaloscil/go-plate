@@ -11,7 +11,7 @@ $ git clone https://github.com/medrupaloscil/go-plate
 $ cd go-plate
 $ go get .
 $ cp .env.example .env
-$ go run main.go
+$ go run go-plate
 ```
 The database is empty by default, you can importe the fixtures/fixtures.sql file in your own database to have needed data
 
